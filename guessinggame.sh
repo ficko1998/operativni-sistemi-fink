@@ -1,28 +1,40 @@
 #!/usr/bin/env bash
 #File: guessinggame.sh
 
-clear
+function guessinggame{
 
-declare -i numberoffiles
+files=$(ls -R | wc -l)
 
-numberoffiles=$(find . -maxdepth 1 -not -type d | wc --lines)
+guessings=0
 
-function isInputValid {
-            until read -p "Dear user, enter how many files you have in a current directory " guess;
+while [[ guessing -eq 0 ]]
+do
+
+            echo "Hey, dear user, enter the number of files that exists in current directorium: "
+            read guess
             
-            [[ "$guess" =~ ^[0-9]+$ ]]; do
-                    echo -e "Enter the positive integer number! "
-            done
-}
-
-while isInputValid; do
-        if (( guess < numberoffiles )); then
-                echo -e "The number you've entered is to small. "
-        elif (( guess > numberoffiles )); then
-                echo -e "The number you've entered is too big. "
-        else
-                echo -e "The number of files you've entered is correct and that number is $numberoffiles "
-                exit
-        fi
-done
-
+            if [[ $guess =~ ^[0-9]+$ ]]
+                        then
+                             if [[ $guess -eq $files ]]
+                             then
+                                    echo "Yes!You have entered the correct number of files"
+                                    guess=1
+                             elif [[ $guess -gt $files ]]
+                                    then
+                                    echo "The number of files you'have entered is $guess . That number of files is too big."
+                                    echo ""
+                              else
+                              
+                                    echo "The number of files you have entered is $guess . That number of files is too small."
+                                    echo ""
+                              fi
+                              
+                              
+                          else
+                          
+                                    echo "Make sure you've entered that describes how many files exists in current directorium. "
+                          fi
+                          
+              done
+              
+              
